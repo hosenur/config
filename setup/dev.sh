@@ -14,6 +14,27 @@ if [ -n "$new_hostname" ]; then
     echo "Hostname updated successfully in system and /etc/hosts!"
 fi
 
+# Create new user with sudo and docker access
+read -p "Enter new username: " new_user
+if [ -n "$new_user" ]; then
+    read -sp "Enter password for $new_user: " new_password
+    echo
+
+    # Create user with home directory
+    useradd -m -s /bin/bash "$new_user"
+
+    # Set password
+    echo "$new_user:$new_password" | chpasswd
+
+    # Add user to sudo group
+    usermod -aG sudo "$new_user"
+
+    echo "User $new_user created successfully with sudo access!"
+else
+    echo "No username provided, exiting..."
+    exit 1
+fi
+
 # Update package list
 apt update
 
@@ -34,12 +55,6 @@ apt upgrade -y
 # Install Zsh
 apt install zsh -y
 
-# Install Bun
-curl -fsSL https://bun.sh/install | bash
-
-# Install OpenCode
-curl -fsSL https://opencode.ai/install | bash
-
 # Install Docker
 # Add Docker's official GPG key:
 sudo apt update
@@ -59,25 +74,20 @@ EOF
 
 sudo apt update
 
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-# Create new user with sudo and docker access
-read -p "Enter new username: " new_user
-if [ -n "$new_user" ]; then
-    read -sp "Enter password for $new_user: " new_password
-    echo
+# Add user to docker group (now that docker is installed)
+usermod -aG docker "$new_user"
 
-    # Create user with home directory
-    useradd -m -s /bin/bash "$new_user"
+# Install user-specific tools as the new user
+echo "Installing user-specific tools for $new_user..."
 
-    # Set password
-    echo "$new_user:$new_password" | chpasswd
+# Install Bun as the new user
+sudo -u "$new_user" bash -c 'curl -fsSL https://bun.sh/install | bash'
 
-    # Add user to sudo group
-    usermod -aG sudo "$new_user"
+# Install OpenCode as the new user
+sudo -u "$new_user" bash -c 'curl -fsSL https://opencode.ai/install | bash'
 
-    # Add user to docker group
-    usermod -aG docker "$new_user"
-
-    echo "User $new_user created successfully with sudo and docker access!"
-fi
+echo "Development environment setup complete!"
+echo "User $new_user has been created with sudo and docker access."
+echo "Please log in as $new_user to use the newly installed tools."
