@@ -56,3 +56,24 @@ EOF
 sudo apt update
 
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Create new user with sudo and docker access
+read -p "Enter new username: " new_user
+if [ -n "$new_user" ]; then
+    read -sp "Enter password for $new_user: " new_password
+    echo
+
+    # Create user with home directory
+    useradd -m -s /bin/bash "$new_user"
+
+    # Set password
+    echo "$new_user:$new_password" | chpasswd
+
+    # Add user to sudo group
+    usermod -aG sudo "$new_user"
+
+    # Add user to docker group
+    usermod -aG docker "$new_user"
+
+    echo "User $new_user created successfully with sudo and docker access!"
+fi
