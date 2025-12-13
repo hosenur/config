@@ -2,6 +2,14 @@
 
 # Development environment setup script
 
+# Ask for hostname and update it
+read -p "Enter new hostname: " new_hostname
+if [ -n "$new_hostname" ]; then
+    echo "Setting hostname to: $new_hostname"
+    hostnamectl set-hostname "$new_hostname"
+    echo "Hostname updated successfully!"
+fi
+
 # Update package list
 apt update
 
