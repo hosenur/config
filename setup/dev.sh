@@ -18,3 +18,9 @@ apt upgrade -y
 	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 	&& sudo apt update \
 	&& sudo apt install gh -y
+
+# Install Zsh
+apt install zsh -y
+
+# Install Bun
+curl -fsSL https://bun.sh/install | bash
