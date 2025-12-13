@@ -24,3 +24,6 @@ apt install zsh -y
 
 # Install Bun
 curl -fsSL https://bun.sh/install | bash
+
+# Install OpenCode
+curl -fsSL https://opencode.ai/install | bash
