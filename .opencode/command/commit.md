@@ -1,5 +1,6 @@
 ---
 description: Smart commit with conventional commit format
+model: zai-coding-plan/glm-4.6
 ---
 
 Generate a commit message based on staged changes.

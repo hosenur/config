@@ -1,6 +1,6 @@
 ---
 description: Create PR with smart summary
-model: z.ai/glm-4.6
+model: zai-coding-plan/glm-4.6
 ---
 
 Create a pull request with context from commits and code changes.

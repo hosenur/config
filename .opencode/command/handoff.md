@@ -1,6 +1,6 @@
 ---
 description: End-of-session handoff - summarize state and generate continuation prompt
-model: z.ai/glm-4.6
+model: zai-coding-plan/glm-4.6
 ---
 
 You are ending a work session. Your job is to create a clean handoff so the next session (or agent) can pick up seamlessly.
